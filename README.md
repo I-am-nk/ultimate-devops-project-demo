@@ -1,12 +1,13 @@
 # End-to-End DevOps Project on AWS with CI/CD Pipeline
----
+
 This project demonstrates a comprehensive **end-to-end CI/CD infrastructure** for a containerized application.  
 It leverages **Terraform** for AWS infrastructure provisioning, **GitHub Actions** for continuous integration, and **ArgoCD** for GitOps-based continuous deployment on a Kubernetes cluster.
+
 ---
 [Project overview](https://github.com/I-am-nk/ultimate-devops-project-demo/blob/main/Project%20Overview.md)
 ---
 
-## 📐 Project Architecture
+## Project Architecture
 ---
 ### 1. ☁️ AWS Infrastructure (Terraform Provisioned)
 - **EC2 Instance**: Required for accessing EKS and AWS CLI.  
