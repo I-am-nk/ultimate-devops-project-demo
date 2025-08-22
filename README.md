@@ -49,6 +49,7 @@ It leverages **Terraform** for AWS infrastructure provisioning, **GitHub Actions
 ```
 .
 ├── .github/               # GitHub Actions & CI configs
+├── ArgoCD/                # ArgoCD set up documentation  
 ├── internal/              # Internal tools/scripts
 ├── kubernetes/            # Kubernetes manifests for all services
 ├── pb/                    # Protocol buffers
