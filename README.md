@@ -75,21 +75,14 @@ Automates provisioning of:
 - EKS Cluster  
 - S3 bucket & DynamoDB for state management
 
-📄 [Terraform README.md](https://github.com/I-am-nk/ultimate-devops-project-terraform/blob/main/README.md)
+📄 [Terraform README](https://github.com/I-am-nk/ultimate-devops-project-terraform/blob/main/README.md)
 
----
-### 🛠️ GitHub Actions (CI/CD)
-Defines the pipeline with:  
-- Code checkout  
-- Build & push Docker images  
-- Code quality checks  
-- Kubernetes manifest updates  
 ---
 ### 🐳 Docker Compose
 - Runs the project locally with a single `docker-compose.yml` file.  
 - Helps test the application before deploying.
 
-📄 [Docker Compose README.md](https://github.com/I-am-nk/ultimate-devops-project-demo/blob/main/local-setup-readme.md)
+📄 [Docker Compose README](https://github.com/I-am-nk/ultimate-devops-project-demo/blob/main/local-setup-readme.md)
 
 ---
 ### ☸️ Kubernetes (Container Orchestration)
@@ -98,12 +91,22 @@ Defines the pipeline with:
 - Manifests are automatically updated by GitHub Actions.
 
 📄 [Kubernetes README →](./kubernetes/README.md)
+ 
   
   ---
 ### 🚀 ArgoCD (GitOps Continuous Deployment)
 - Auto-syncs Kubernetes manifests from GitHub.  
 - Deploys the app to the EKS cluster continuously.  
 
+📄 [ArgoCD README →](./ArgoCD/README.md)
+
+---
+### 🛠️ GitHub Actions (CI/CD)
+Defines the pipeline with:  
+- Code checkout  
+- Build & push Docker images  
+- Code quality checks  
+- Kubernetes manifest updates 
 ---
 
 ## 👨‍💻 Author
