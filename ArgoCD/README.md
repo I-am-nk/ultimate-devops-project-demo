@@ -1,4 +1,3 @@
-```markdown
 # 🚀 Argo CD on EKS via EC2 — Installation & CI/CD Setup Guide
 
 ![AWS](https://img.shields.io/badge/AWS-EC2%20%7C%20EKS-FF9900?logo=amazon-aws&logoColor=white)
@@ -31,54 +30,78 @@ This guide installs and configures Argo CD on an AWS EC2 instance that has kubec
 Create the namespace and install Argo CD CRDs, deployments, and services:
 
 - Create namespace and apply Argo CD manifests:
-  (kubectl create namespace argocd)
-  (kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml)
+    ```bash
+    kubectl create namespace argocd
+    ```
+    ```bash
+    kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+    ```
 
 - Check services:
-  (kubectl get svc -n argocd) +
+    ```bash
+    kubectl get svc -n argocd
+    ```
 
 - Expose the Argo CD server externally by switching the Service type to LoadBalancer:
-  (kubectl edit svc argocd-server -n argocd)
-  In the editor, change:
-  spec:
-    type: ClusterIP
-  to:
-  spec:
-    type: LoadBalancer
+    ```bash
+    kubectl edit svc argocd-server -n argocd
+    ```
+    In the editor, change:
+    ```yaml
+    spec:
+      type: ClusterIP
+    ```
+    to:
+    ```yaml
+    spec:
+      type: LoadBalancer
+    ```
 
 - Confirm the external load balancer is provisioning:
-  (kubectl get svc -n argocd) +
-  You should see an EXTERNAL-IP or hostname appear for argocd-server. This may take a few minutes.
+    ```bash
+    kubectl get svc -n argocd
+    ```
+    You should see an EXTERNAL-IP or hostname appear for argocd-server. This may take a few minutes.
 
-- Open the Argo CD UI in the browser using the Load Balancer DNS name/hostname. +
+- Open the Argo CD UI in the browser using the Load Balancer DNS name/hostname.
 
 Tip:
 - If you prefer port-forwarding instead of a LoadBalancer, you can use:
-  (kubectl port-forward svc/argocd-server -n argocd 8080:443)
-  Then access: https://localhost:8080
+    ```bash
+    kubectl port-forward svc/argocd-server -n argocd 8080:443
+    ```
+    Then access: https://localhost:8080
 
 ---
 
 ## 2) Retrieve Argo CD Admin Credentials and Login
 
 - List secrets to find the initial admin secret:
-  (kubectl get secrets -n argocd)
-  Look for: argocd-initial-admin-secret +
+    ```bash
+    kubectl get secrets -n argocd
+    ```
+    Look for: `argocd-initial-admin-secret`
 
 - View the secret to get the base64-encoded password:
-  (kubectl edit secret argocd-initial-admin-secret -n argocd)
-  Find the key: data.password
+    ```bash
+    kubectl edit secret argocd-initial-admin-secret -n argocd
+    ```
+    Find the key: `data.password`
 
-- Decode the password value (replace <base64> with the copied value):
-  (echo "<base64>" | base64 --decode)
+- Decode the password value (replace `<base64>` with the copied value):
+    ```bash
+    echo "<base64>" | base64 --decode
+    ```
 
 - Login to the Argo CD UI:
-  - Username: admin
+  - Username: `admin`
   - Password: the decoded value
-  - Access via the Load Balancer URL from earlier +
+  - Access via the Load Balancer URL from earlier
 
 Optional CLI login (if using port-forwarding or have direct access):
-- (argocd login <ARGOCD_SERVER_DNS_OR_IP> --username admin --password <decoded-password> --insecure)
+    ```bash
+    argocd login <ARGOCD_SERVER_DNS_OR_IP> --username admin --password <decoded-password> --insecure
+    ```
 
 Security note:
 - Immediately rotate the admin password or create RBAC users once logged in.
@@ -96,15 +119,15 @@ In the Argo CD UI, click “Create Application” and fill in:
   - Enable “Self Heal” (so Argo CD reverts drift automatically)
 
 - Source
-  - Repository URL: <your Git repo URL>
-  - Revision: HEAD
-  - Path: Kubernetes/productcatalog
+  - Repository URL: `<your Git repo URL>`
+  - Revision: `HEAD`
+  - Path: `Kubernetes/productcatalog`
 
 - Destination
-  - Cluster URL: (https://kubernetes.default.svc)
-  - Namespace: (default) or your target namespace
+  - Cluster URL: `https://kubernetes.default.svc`
+  - Namespace: `(default)` or your target namespace
 
-- Click Create +
+- Click Create
 
 Argo CD will sync the application and deploy the manifests to your EKS cluster.
 
@@ -130,15 +153,25 @@ Typical GitHub Actions stages that feed Argo CD:
 ## 5) Useful kubectl Commands
 
 - Check Argo CD components:
-  (kubectl get pods -n argocd)
+    ```bash
+    kubectl get pods -n argocd
+    ```
 
 - Inspect the Argo CD server service:
-  (kubectl get svc argocd-server -n argocd)
+    ```bash
+    kubectl get svc argocd-server -n argocd
+    ```
 
 - Troubleshoot (view logs of a component):
-  (kubectl logs deploy/argocd-server -n argocd)
-  (kubectl logs deploy/argocd-repo-server -n argocd)
-  (kubectl logs deploy/argocd-application-controller -n argocd)
+    ```bash
+    kubectl logs deploy/argocd-server -n argocd
+    ```
+    ```bash
+    kubectl logs deploy/argocd-repo-server -n argocd
+    ```
+    ```bash
+    kubectl logs deploy/argocd-application-controller -n argocd
+    ```
 
 ---
 
@@ -161,36 +194,55 @@ Typical GitHub Actions stages that feed Argo CD:
 ## 7) Clean Up
 
 - Uninstall Argo CD:
-  (kubectl delete -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml)
-  (kubectl delete namespace argocd)
+    ```bash
+    kubectl delete -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+    ```
+    ```bash
+    kubectl delete namespace argocd
+    ```
 
 - Remove the Load Balancer service (if created manually):
-  (kubectl delete svc argocd-server -n argocd)
+    ```bash
+    kubectl delete svc argocd-server -n argocd
+    ```
 
 ---
 
 ## 📎 Quick Reference (Copy-Friendly)
 
 - Create namespace:
-  (kubectl create namespace argocd)
+    ```bash
+    kubectl create namespace argocd
+    ```
 
 - Install Argo CD:
-  (kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml)
+    ```bash
+    kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+    ```
 
 - Get services:
-  (kubectl get svc -n argocd)
+    ```bash
+    kubectl get svc -n argocd
+    ```
 
 - Edit server service:
-  (kubectl edit svc argocd-server -n argocd)
+    ```bash
+    kubectl edit svc argocd-server -n argocd
+    ```
 
 - Get initial secret:
-  (kubectl get secrets -n argocd)
+    ```bash
+    kubectl get secrets -n argocd
+    ```
 
 - View secret:
-  (kubectl edit secret argocd-initial-admin-secret -n argocd)
+    ```bash
+    kubectl edit secret argocd-initial-admin-secret -n argocd
+    ```
 
 - Decode password:
-  (echo "<base64>" | base64 --decode)
+    ```bash
+    echo "<base64>" | base64 --decode
+    ```
 
 ---
-
