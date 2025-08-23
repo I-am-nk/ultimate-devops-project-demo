@@ -5,9 +5,13 @@ It leverages **Terraform** for AWS infrastructure provisioning, **GitHub Actions
 
 ---
 [Project overview](https://github.com/I-am-nk/ultimate-devops-project-demo/blob/main/Project%20Overview.md)
+
 ---
 
 ## Project Architecture
+
+![new1](https://github.com/user-attachments/assets/23c24930-9523-4a61-aea1-e01eae6553ef)
+
 ---
 ### 1. ☁️ AWS Infrastructure (Terraform Provisioned)
 - **EC2 Instance**: Required for accessing EKS and AWS CLI.  
