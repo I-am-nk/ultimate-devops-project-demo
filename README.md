@@ -111,7 +111,10 @@ Defines the pipeline with:
 - Code checkout  
 - Build & push Docker images  
 - Code quality checks  
-- Kubernetes manifest updates 
+- Kubernetes manifest updates
+
+📄 [Github Actions README →](https://github.com/I-am-nk/ultimate-devops-project-demo/blob/main/GitHub%20Actions%20Readme.md))
+
 ---
 
 ## 👨‍💻 Author
